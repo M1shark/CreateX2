@@ -14,6 +14,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_progress__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_components_progress__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_accordions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/accordions */ "./src/js/components/accordions.js");
 /* harmony import */ var _components_accordions__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_accordions__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/tabs */ "./src/js/components/tabs.js");
+/* harmony import */ var _components_tabs__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_tabs__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -222,10 +225,12 @@ circles.forEach(el => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var swiper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! swiper */ "./node_modules/swiper/swiper.esm.js");
 
-swiper__WEBPACK_IMPORTED_MODULE_0__["default"].use([swiper__WEBPACK_IMPORTED_MODULE_0__.Navigation, swiper__WEBPACK_IMPORTED_MODULE_0__.Pagination, swiper__WEBPACK_IMPORTED_MODULE_0__.Autoplay]);
+swiper__WEBPACK_IMPORTED_MODULE_0__["default"].use([swiper__WEBPACK_IMPORTED_MODULE_0__.Navigation, swiper__WEBPACK_IMPORTED_MODULE_0__.Pagination, swiper__WEBPACK_IMPORTED_MODULE_0__.Autoplay, swiper__WEBPACK_IMPORTED_MODULE_0__.Thumbs]);
 const heroSlider = document.querySelector(".hero__slider");
 const portfolioSlider = document.querySelector(".portfolio__slider");
 const clientsSlider = document.querySelector(".clients__slider");
+const workSlider = document.querySelector(".work-slider");
+const historySlider = document.querySelector(".history__slider");
 if (heroSlider) {
   const heroSliderSpeed = 1500;
   const bodyStyles = window.getComputedStyle(document.body);
@@ -292,6 +297,108 @@ if (clientsSlider) {
     navigation: {
       nextEl: ".clients__nav-prev",
       prevEl: ".clients__nav-next"
+    }
+  });
+}
+if (workSlider) {
+  let workNav = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](".work-slider-nav", {
+    spaceBetween: 20,
+    freeMode: true,
+    watchSlidesProgress: true,
+    breakpoints: {
+      // when window width is >= 320px
+      320: {
+        slidesPerView: 3,
+        spaceBetween: 20
+      },
+      // when window width is >= 480px
+      480: {
+        slidesPerView: 4,
+        spaceBetween: 20
+      },
+      // when window width is >= 640px
+      640: {
+        slidesPerView: 5,
+        spaceBetween: 20
+      },
+      992: {
+        slidesPerView: 10,
+        spaceBetween: 20
+      }
+    }
+  });
+  let workSlide = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](workSlider, {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    navigation: {
+      nextEl: ".work-inner-img__next",
+      prevEl: ".work-inner-img__prev"
+    },
+    thumbs: {
+      swiper: workNav
+    }
+  });
+}
+if (historySlider) {
+  const history = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](historySlider, {
+    slidesPerView: 1,
+    spaceBetween: 30,
+    navigation: {
+      nextEl: ".history__next",
+      prevEl: ".history__prev"
+    }
+  });
+  history.on("slideChange", function () {
+    console.log(history.realIndex);
+    navBtn.forEach(el => {
+      el.classList.remove("history__btn--active");
+    });
+    document.querySelector(`.history__btn[data-index="${history.realIndex}"]`).classList.add("history__btn--active");
+  });
+  const navBtn = document.querySelectorAll(".history__btn");
+  navBtn.forEach((el, idx) => {
+    el.setAttribute("data-index", idx);
+    el.addEventListener("click", e => {
+      const index = e.currentTarget.dataset.index;
+      navBtn.forEach(el => {
+        el.classList.remove("history__btn--active");
+      });
+      e.currentTarget.classList.add("history__btn--active");
+      history.slideTo(index);
+    });
+  });
+}
+
+/***/ }),
+
+/***/ "./src/js/components/tabs.js":
+/*!***********************************!*\
+  !*** ./src/js/components/tabs.js ***!
+  \***********************************/
+/***/ (() => {
+
+const tabsNav = document.querySelector(".work-project-tabs-nav");
+if (tabsNav) {
+  tabsNav.addEventListener("click", e => {
+    const target = e.target;
+    if (target.classList.contains("work-project-tabs-nav__btn")) {
+      const path = target.dataset.path;
+      document.querySelectorAll(".work-project-tabs-nav__btn").forEach(el => {
+        el.classList.remove("work-project-tabs-nav__btn--active");
+      });
+      target.classList.add("work-project-tabs-nav__btn--active");
+      document.querySelectorAll(".work-project-tabs__item").forEach(el => {
+        el.style.display = "none";
+        el.classList.remove("work-project-tabs__item--active");
+      });
+      document.querySelectorAll(`[data-target="${path}"]`).forEach(el => {
+        el.closest(".work-project-tabs__item").classList.add("work-project-tabs__item--active");
+      });
+      if (path == "all") {
+        document.querySelectorAll(".work-project-tabs__item").forEach(el => {
+          el.classList.add("work-project-tabs__item--active");
+        });
+      }
     }
   });
 }
