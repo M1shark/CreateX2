@@ -18,6 +18,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_tabs__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_tabs__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _components_selects__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/selects */ "./src/js/components/selects.js");
 /* harmony import */ var _components_selects__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_components_selects__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _components_fixed_header__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/fixed-header */ "./src/js/components/fixed-header.js");
+/* harmony import */ var _components_fixed_header__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_components_fixed_header__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -184,6 +187,24 @@ accordion.forEach(el => {
       content.style.maxHeight = null;
     }
   });
+});
+
+/***/ }),
+
+/***/ "./src/js/components/fixed-header.js":
+/*!*******************************************!*\
+  !*** ./src/js/components/fixed-header.js ***!
+  \*******************************************/
+/***/ (() => {
+
+const header = document.querySelector(".header");
+window.addEventListener("scroll", () => {
+  let skroll = window.scrollY;
+  if (skroll >= 100) {
+    header.classList.add("fixed");
+  } else {
+    header.classList.remove("fixed");
+  }
 });
 
 /***/ }),
